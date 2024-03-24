@@ -9,4 +9,3 @@ export const createContext = (opts: CreateHTTPContextOptions) => {
 };
 
 export type Context = typeof createContext;
-
