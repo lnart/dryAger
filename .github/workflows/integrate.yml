@@ -5,7 +5,6 @@ name: Backend CI
 
 on:
   push:
-  pull_request:
 
 jobs:
   test_pull_request:
