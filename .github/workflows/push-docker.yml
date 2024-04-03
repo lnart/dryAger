@@ -1,4 +1,4 @@
-name: Staging Deployment Backend 
+name: Staging Deployment Backend
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '21.1.0'
+          node-version: "21.1.0"
       - run: npm ci
         name: install dependencies
         working-directory: ./src
@@ -25,7 +25,7 @@ jobs:
         name: test with npm
         working-directory: ./src
 
-  lint-format: 
+  lint-format:
     name: lint and format backend
     runs-on: ubuntu-22.04
     steps:
@@ -37,7 +37,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '21.1.0'
+          node-version: "21.1.0"
       - run: npm ci
         name: install dependencies
         working-directory: ./src
@@ -66,7 +66,7 @@ jobs:
       - name: docker metadata
         id: metadata
         uses: docker/metadata-action@v5
-        with: 
+        with:
           images: lnart/dryager-backend
           tags: |
             type=raw,value=${{ github.sha }}
@@ -84,4 +84,4 @@ jobs:
           push: true
           tags: ${{ steps.metadata.outputs.tags }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max    
+          cache-to: type=gha,mode=max

@@ -1,7 +1,7 @@
 services:
   dry_ager_api:
     container_name: dryagerapi
-    build: 
+    build:
       dockerfile: Dockerfile
     environment:
       PORT: ${PORT}
@@ -17,4 +17,3 @@ services:
 
 networks:
   dryage-net:
-
