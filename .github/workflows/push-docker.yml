@@ -20,7 +20,7 @@ jobs:
           node-version: "21.1.0"
       - run: npm ci
         name: install dependencies
-        working-directory: 
+        working-directory:
       - run: npm run test
         name: test with npm
         working-directory:
@@ -42,7 +42,7 @@ jobs:
         name: install dependencies
         working-directory:
       - run: |
-          if ! npm run prettier -- --check .; then
+          if ! npm run format -- --check .; then
             echo "Please format the code by running: npm run format"
             exit 1
           fi
