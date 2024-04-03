@@ -19,3 +19,23 @@ jobs:
       - run: npm run format -- --check
       - run: npm run test
       - run: npm run build
+  test-build:
+    name: build to check compilation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout backend
+        with:
+          sparse-checkout: |
+            
+      - uses: actions/setup-node@v3
+        name: Setup Node.js
+        with:
+          node-version: "21.1.0"
+      - run: npm ci
+        name: Install dependecies
+      - run: npm run build
+        name: build the project with npm
+
+
+
