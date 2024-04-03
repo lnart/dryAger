@@ -1,0 +1,20 @@
+services:
+  dry_ager_api:
+    container_name: dryagerapi
+    build: 
+      dockerfile: Dockerfile
+    environment:
+      PORT: ${PORT}
+      DB_CONNECTION_STRING: ${DB_CONNECTION_STRING}
+      BASE_URL: ${BASE_URL}
+      MQTT_CONNECT_STRING: ${MQTT_CONNECT_STRING}
+      MQTT_USERNAME: ${MQTT_USERNAME}
+      MQTT_PASSWORD: ${MQTT_PASSWORD}
+    networks:
+      - dryage-net
+    ports:
+      - "127.0.0.1:3050:3032"
+
+networks:
+  dryage-net:
+
