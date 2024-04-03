@@ -13,17 +13,17 @@ jobs:
         name: checkout backend
         with:
           sparse-checkout: |
-            /src
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "21.1.0"
       - run: npm ci
         name: install dependencies
-        working-directory: /src
+        working-directory: 
       - run: npm run test
         name: test with npm
-        working-directory: /src
+        working-directory:
 
   lint-format:
     name: lint and format backend
@@ -33,21 +33,21 @@ jobs:
         name: checkout backend
         with:
           sparse-checkout: |
-            ./
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "21.1.0"
       - run: npm ci
         name: install dependencies
-        working-directory: /src
+        working-directory:
       - run: |
           if ! npm run prettier -- --check .; then
             echo "Please format the code by running: npm run format"
             exit 1
           fi
         name: check code formatting
-        working-directory: /src
+        working-directory:
 
   build-image:
     runs-on: ubuntu-22.04
