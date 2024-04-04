@@ -1,17 +1,14 @@
 import mongoose from "mongoose";
 import { config } from "dotenv";
-import { mongoDbPreferences } from "./mongoDbPreferences";
 
 config();
 
 export async function connectToDb() {
-  if (process.env.DB_CONNECTION_STRING) {
+  if (process.env.CLOUD_DB_CONNECTION_STRING) {
     const db = await mongoose
-      .connect(
-        `${process.env.DB_CONNECTION_STRING}/${mongoDbPreferences.databaseName}`,
-      )
+      .connect(`${process.env.CLOUD_DB_CONNECTION_STRING}`)
       .then(() => console.log(`Successfully connected to MongoDB`))
-      .catch((error) => console.error(`Comnnection error: ${error}`));
+      .catch((error) => console.error(`Connection error: ${error}`));
     return db;
   }
 }

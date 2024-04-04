@@ -7,26 +7,25 @@ export const userSchema = new mongoose.Schema({
   dryAgerIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "DryAger" }],
 });
 
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model("user", userSchema);
 export type UserType = typeof userSchema;
 
 export const dryAgerSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
   name: { type: String, required: true },
   model: String,
   status: {
     light: { type: String, enum: ["on", "off"], default: "off" },
     fan: { type: String, enum: ["on", "off"], default: "off" },
   },
-  // Assuming records are referenced in the Records collection, not stored directly
 });
 
-export const DryAger = mongoose.model("DryAger", dryAgerSchema);
+export const DryAger = mongoose.model("dryAger", dryAgerSchema);
 
 export const recordSchema = new mongoose.Schema({
   dryAgerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "DryAger",
+    ref: "dryAger",
     required: true,
   },
   date: { type: Date, default: Date.now },
@@ -38,21 +37,21 @@ export const recordSchema = new mongoose.Schema({
 
 recordSchema.index({ dryAgerId: 1, date: -1 });
 
-export const Record = mongoose.model("Record", recordSchema);
+export const Record = mongoose.model("record", recordSchema);
 
 export const recipeSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
   name: { type: String, required: true },
   description: String,
   notes: String,
   dryAgerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "DryAger",
+    ref: "dryAger",
     required: true,
   },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
-  relatedRecords: [{ type: mongoose.Schema.Types.ObjectId, ref: "Record" }],
+  relatedRecords: [{ type: mongoose.Schema.Types.ObjectId, ref: "record" }],
 });
 
-export const Recipe = mongoose.model("Recipe", recipeSchema);
+export const Recipe = mongoose.model("recipe", recipeSchema);

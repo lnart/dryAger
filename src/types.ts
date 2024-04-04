@@ -22,21 +22,6 @@ export type EditUser = {
   email?: string;
 };
 
-export const testSchema = z
-  .object({
-    username: z.string().optional(),
-    id: z.string().optional(),
-  })
-  .refine(
-    (data) => {
-      // Ensure exactly one of the properties is provided
-      return (data.username && !data.id) || (!data.username && data.id);
-    },
-    {
-      message: "Either 'username' or 'id' must be provided, but not both.",
-    },
-  );
-
 export type DryAger = {
   _id: string;
   userId: string; // Reference to User

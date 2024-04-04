@@ -72,9 +72,9 @@ export const userRouter = router({
     return res;
   }),
 
-  test: publicProcedure.query(()=>{
-    return 'success'
-  })
+  test: publicProcedure.query(() => {
+    return "success";
+  }),
 });
 
 export type userRouter = typeof userRouter;
