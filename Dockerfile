@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . .
 
+RUN npm run build
+
 ENV PORT=3032
 
 EXPOSE 3032
