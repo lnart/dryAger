@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index",
-    "start": "ts-node src/index",
+    "start": "node dist/index.js",
     "format": "npx prettier . --write",
     "test": "npx vitest run",
     "build": "tsc"
