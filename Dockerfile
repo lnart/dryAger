@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN tsc
+RUN npm run build
 
 ENV PORT=3032
 
