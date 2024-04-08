@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
-          node-version: 21
+          node-version: 20
       - run: npm ci
       - run: npm run format -- --check
       - run: npm run test
@@ -24,17 +24,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         name: Checkout backend
-        with:
-          sparse-checkout: |
-            
+        # with:
+        #   sparse-checkout: |
+
       - uses: actions/setup-node@v3
         name: Setup Node.js
         with:
-          node-version: "21.1.0"
+          node-version: 20
       - run: npm ci
         name: Install dependecies
       - run: npm run build
         name: build the project with npm
-
-
-

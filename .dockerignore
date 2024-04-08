@@ -5,3 +5,5 @@ README.md
 .git
 .env.local
 dist
+env.list
+.env

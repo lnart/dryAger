@@ -11,13 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         name: checkout backend
-        with:
-          sparse-checkout: |
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "21.1.0"
+          node-version: 20
       - run: npm ci
         name: install dependencies
         working-directory:
@@ -31,13 +28,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         name: checkout backend
-        with:
-          sparse-checkout: |
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "21.1.0"
+          node-version: 20
       - run: npm ci
         name: install dependencies
         working-directory:
@@ -56,9 +51,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         name: checkout backend
-        with:
-          sparse-checkout: |
-            ./
+      - run: |
+          ls
+        name: debug
       - name: set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: set up docker buildx
