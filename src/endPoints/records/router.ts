@@ -1,23 +1,29 @@
 import { publicProcedure, router } from "../../trpc";
 import * as recordController from "./recordController";
-import * as schemas from "../../db/schemas";
 import z from "zod";
+import { timespanSchema, WriteRecordSchema } from "../../types";
 
 export const recordRouter = router({
-  create: publicProcedure
-    .input(
-      z.object({
-        dryAgerId: z.string(),
-        date: z.string(),
-        humidity: z.number(),
-        temperature: z.number(),
-        fanActivity: z.enum(["on", "off"]),
-        lightActivity: z.enum(["on", "off"]),
-      }),
-    )
+  create: publicProcedure.input(WriteRecordSchema).mutation(async (opts) => {
+    const [error, res] = await recordController.controlRecordCreation(
+      opts.input,
+    );
+    if (error) {
+      throw error;
+    }
+    return res;
+  }),
+  getById: publicProcedure.input(z.string()).query(async (opts) => {
+    const res = await recordController.controlGetRecordById(opts.input);
+    return res;
+  }),
+  getInTimeSpan: publicProcedure
+    .input(timespanSchema)
     .mutation(async (opts) => {
-      const [error, res] = await recordController.controlRecordCreation(
-        opts.input,
+      const [error, res] = await recordController.controlGetRecordsInTimeSpan(
+        opts.input.dryAgerId,
+        opts.input.startDate,
+        opts.input.endDate,
       );
       if (error) {
         throw error;

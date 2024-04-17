@@ -1,4 +1,5 @@
-import { recordModel } from "../../db/schemas";
+import { dryAgerModel, recordModel } from "../../db/schemas";
+import mongoose from "mongoose";
 import * as types from "../../types";
 
 export async function getRecords(
@@ -21,20 +22,36 @@ export async function getRecords(
   return [null, res];
 }
 
-export async function writeRecord(record: any) {
-  const res = await recordModel.create({
-    ...record,
-  });
+export async function writeRecord(record: types.WriteRecord) {
+  const res = recordModel.create(record);
+  if (record) {
+    return [null, res];
+  }
+  return [true, null];
+}
+
+export async function getRecordById(recordId: string) {
+  const res = await recordModel.findById(recordId);
   if (!res) {
     return [true, null];
   }
   return [null, res];
 }
 
-export async function getRecipeById(recipeId: string) {
-  const res = await recordModel.findById(recipeId);
-  if (!res) {
-    return [true, null];
+export async function getRecordsInTimeSpan(
+  dryAgerId: string,
+  startDate: Date,
+  endDate: Date,
+) {
+  const res = await recordModel.find({
+    dryAgerId: dryAgerId,
+    date: {
+      $gte: startDate,
+      $lte: endDate,
+    },
+  });
+  if (res) {
+    return [null, res];
   }
-  return [null, res];
+  return [true, null];
 }
