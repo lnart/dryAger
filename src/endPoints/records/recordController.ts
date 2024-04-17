@@ -5,13 +5,11 @@ import { mqttClient } from "../mqtt/mqtt";
 type MqttClient = typeof mqttClient;
 
 export async function controlGetRecordsFromTimeSpan(
-  schema: types.Schema,
   startDate: string,
   endDate: string,
   dryAgerId: string,
 ) {
   const [error, res] = await recordModel.getRecords(
-    schema,
     startDate,
     endDate,
     dryAgerId,
@@ -26,11 +24,8 @@ export async function controlGetRecordsFromTimeSpan(
   return [null, res];
 }
 
-export async function controlRecordCreation(
-  schema: types.Schema,
-  record: types.WriteRecord,
-) {
-  const [error, res] = await recordModel.writeRecord(schema, record);
+export async function controlRecordCreation(record: types.WriteRecord) {
+  const [error, res] = await recordModel.writeRecord(record);
   if (error) {
     const error = new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
     return [error, null];
@@ -38,11 +33,8 @@ export async function controlRecordCreation(
   return [null, res];
 }
 
-export async function controlGetRecordsFromRecipe(
-  recipeId: string,
-  schema: types.Schema,
-) {
-  const [error, res] = await recordModel.getRecipeById(recipeId, schema);
+export async function controlGetRecordsFromRecipe(recipeId: string) {
+  const [error, res] = await recordModel.getRecipeById(recipeId);
   if (!res) {
     return [true, null];
   }

@@ -1,7 +1,5 @@
-import config from "dotenv";
 import { publicProcedure, router } from "../../trpc";
 import * as recordController from "./recordController";
-import * as types from "../../types";
 import * as schemas from "../../db/schemas";
 import z from "zod";
 
@@ -19,7 +17,6 @@ export const recordRouter = router({
     )
     .mutation(async (opts) => {
       const [error, res] = await recordController.controlRecordCreation(
-        schemas,
         opts.input,
       );
       if (error) {
