@@ -27,6 +27,7 @@ export const StatusSchema = z.object({
 });
 
 export const RecordSchema = z.object({
+  dryAgerId: z.string(),
   date: z.date(),
   humidity: z.number(),
   temperature: z.number(),
@@ -38,13 +39,18 @@ export const WriteRecordSchema = RecordSchema.omit({
   date: true,
 });
 
+export const timespanSchema = z.object({
+  dryAgerId: z.string(),
+  startDate: z.string(),
+  endDate: z.string(),
+});
+
 export const DryAgerSchema = z.object({
   _id: z.string(),
   name: z.string(),
   status: StatusSchema,
   user: UserSchema,
   recipes: z.array(RecipeSchema),
-  records: z.array(z.string()),
 });
 
 export const WriteDryAgerSchema = DryAgerSchema.omit({
@@ -53,6 +59,10 @@ export const WriteDryAgerSchema = DryAgerSchema.omit({
   status: true,
   recipes: true,
   records: true,
+});
+
+export const updateDryAgerSchema = DryAgerSchema.omit({
+  _id: true,
 });
 
 export const recordPayloadSchema = z.object({
