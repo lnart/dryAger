@@ -13,6 +13,7 @@ export async function initializeSignUp(obj: types.DryAger) {
 
 export async function getDryAgerById(id: string) {
   const res = await dryAgerModel.findById(id);
+  console.log(res);
   if (!res) {
     return [true, null];
   }
