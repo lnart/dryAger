@@ -6,14 +6,19 @@ import z from "zod";
 import { WriteUserSchema } from "../../types";
 
 export const userRouter = router({
-  create: publicProcedure.input(WriteUserSchema).mutation(async (opts) => {
-    console.log(opts.input, opts.ctx.req);
-    const [error, res] = await userController.createUser(opts.input);
-    if (error) {
-      throw error;
-    }
-    return res;
-  }),
+  create: publicProcedure
+    .input(z.object({ user: WriteUserSchema, dryAgerName: z.string() }))
+    .mutation(async (opts) => {
+      console.log(opts.input, opts.ctx.req);
+      const [error, res] = await userController.createUser(
+        opts.input.user,
+        opts.input.dryAgerName,
+      );
+      if (error) {
+        throw error;
+      }
+      return res;
+    }),
 
   edit: publicProcedure
     .input(
@@ -41,7 +46,6 @@ export const userRouter = router({
     }),
 
   getOne: publicProcedure.input(z.string()).query(async (opts) => {
-    //@ts-ignore
     const [error, res] = await userController.controlReadUserById(opts.input);
     if (error) {
       throw error;

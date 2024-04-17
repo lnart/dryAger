@@ -2,8 +2,9 @@ import * as schemas from "../../db/schemas";
 import * as types from "../../types";
 import { dryAgerModel } from "../../db/schemas";
 
-export async function writeUser(user: types.WriteUser) {
+export async function writeUser(user: types.WriteUser, dryAgerName: string) {
   const result = await dryAgerModel.create({
+    name: dryAgerName,
     user: {
       username: user.username,
       email: user.email,

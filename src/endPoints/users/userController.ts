@@ -4,10 +4,10 @@ import * as types from "../../types";
 import { TRPCError } from "@trpc/server";
 import * as userModel from "./userModel";
 
-export async function createUser(user: types.WriteUser) {
+export async function createUser(user: types.WriteUser, dryAgerName: string) {
   try {
     user.password = await bcrypt.hash(user.password, await bcrypt.genSalt(10));
-    const [error, result] = await userModel.writeUser(user);
+    const [error, result] = await userModel.writeUser(user, dryAgerName);
     if (error) {
       const error = new TRPCError({
         message: "user was not created",
