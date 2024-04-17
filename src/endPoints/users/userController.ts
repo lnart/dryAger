@@ -4,13 +4,10 @@ import * as types from "../../types";
 import { TRPCError } from "@trpc/server";
 import * as userModel from "./userModel";
 
-export async function createUser(
-  schema: typeof schemas,
-  user: types.WriteUser,
-) {
+export async function createUser(user: types.WriteUser) {
   try {
     user.password = await bcrypt.hash(user.password, await bcrypt.genSalt(10));
-    const [error, result] = await userModel.writeUser(schema, user);
+    const [error, result] = await userModel.writeUser(user);
     if (error) {
       const error = new TRPCError({
         message: "user was not created",
@@ -25,14 +22,10 @@ export async function createUser(
   }
 }
 
-export async function controlUserUpdate(
-  schema: typeof schemas,
-  user: types.WriteUser,
-  id: string,
-) {
+export async function controlUserUpdate(user: types.WriteUser, id: string) {
   try {
     user.password = await bcrypt.hash(user.password, await bcrypt.genSalt(10));
-    const [error, result] = await userModel.updateUser(schema, user, id);
+    const [error, result] = await userModel.updateUser(user, id);
     if (error) {
       const error = new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
@@ -47,9 +40,9 @@ export async function controlUserUpdate(
   }
 }
 
-export async function controlReadUserById(schema: typeof schemas, id: string) {
+export async function controlReadUserById(id: string) {
   try {
-    const [error, result] = await userModel.readOneById(schema, id);
+    const [error, result] = await userModel.readOneById(id);
     if (error) {
       const error = new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
@@ -64,11 +57,8 @@ export async function controlReadUserById(schema: typeof schemas, id: string) {
   }
 }
 
-export async function controlReadUserByName(
-  schema: typeof schemas,
-  username: string,
-) {
-  const [error, result] = await userModel.readOneByUsername(schema, username);
+export async function controlReadUserByName(username: string) {
+  const [error, result] = await userModel.readOneByUsername(username);
   if (error) {
     const error = new TRPCError({
       code: "INTERNAL_SERVER_ERROR",

@@ -1,11 +1,14 @@
 import * as schemas from "../../db/schemas";
 import * as types from "../../types";
+import { dryAgerModel } from "../../db/schemas";
 
-export async function writeUser(schema: typeof schemas, user: types.WriteUser) {
-  const result = await schema.User.create({
-    username: user.username,
-    password: user.password,
-    email: user.email,
+export async function writeUser(user: types.WriteUser) {
+  const result = await dryAgerModel.create({
+    user: {
+      username: user.username,
+      email: user.email,
+      password: user.password,
+    },
   });
   if (!result) {
     return [true, null];
@@ -13,17 +16,15 @@ export async function writeUser(schema: typeof schemas, user: types.WriteUser) {
   return [null, result];
 }
 
-export async function updateUser(
-  schema: typeof schemas,
-  user: types.WriteUser,
-  id: string,
-) {
-  const result = await schema.User.updateOne(
+export async function updateUser(user: types.WriteUser, id: string) {
+  const result = await dryAgerModel.updateOne(
     { _id: id },
     {
-      username: user.username,
-      email: user.email,
-      password: user.password,
+      user: {
+        username: user.username,
+        email: user.email,
+        password: user.password,
+      },
     },
   );
   if (!result) {
@@ -32,20 +33,17 @@ export async function updateUser(
   return [null, result];
 }
 
-export async function readOneById(schema: typeof schemas, id: string) {
-  const result = await schema.User.findById(id);
+export async function readOneById(id: string) {
+  const result = await dryAgerModel.findOne({ "user._id": id });
   if (!result) {
     return [true, null];
   }
-  return [null, result];
+  return [null, result.user];
 }
 
-export async function readOneByUsername(
-  schema: typeof schemas,
-  username: string,
-) {
-  const result = await schema.User.findOne({
-    username: username,
+export async function readOneByUsername(username: string) {
+  const result = await dryAgerModel.findOne({
+    "user.username": username,
   });
   if (!result) {
     return [true, null];
@@ -53,8 +51,8 @@ export async function readOneByUsername(
   return [null, result];
 }
 
-export async function checkIfUserExist(schema: types.Schema, id: string) {
-  const result = await schema.User.findById(id);
+export async function checkIfUserExist(id: string) {
+  const result = await dryAgerModel.find({ "user.user_id": id });
   if (!result) {
     return false;
   }
