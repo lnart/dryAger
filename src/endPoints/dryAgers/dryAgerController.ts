@@ -1,10 +1,10 @@
 import * as dryAgerModel from "./dryAgerModel";
 import * as types from "../../types";
 import { TRPCError } from "@trpc/server";
-import { checkIfUserExist } from "../users/userModel";
+import { readOneById } from "../users/userModel";
 
-export async function controlGetDryAger(schema: types.Schema, id: string) {
-  const [error, res] = await dryAgerModel.getDryAgerById(schema, id);
+export async function controlGetDryAger(id: string) {
+  const [error, res] = await dryAgerModel.getDryAgerById(id);
   if (error) {
     const error = new TRPCError({
       code: "INTERNAL_SERVER_ERROR",
@@ -16,14 +16,15 @@ export async function controlGetDryAger(schema: types.Schema, id: string) {
 }
 
 export async function controlCreateDryAger(
-  schema: types.Schema,
   dryAgerObject: types.WriteDryAger,
+  userId: string,
 ) {
-  const userCheck = await checkIfUserExist(schema, dryAgerObject.userId);
-  if (userCheck) {
+  const user = await readOneById(userId);
+  const validator = types.UserSchema.safeParse(user);
+  if (validator.success === true) {
     const [error, res] = await dryAgerModel.createDryAger(
-      schema,
       dryAgerObject,
+      validator.data.username,
     );
     if (error) {
       const error = new TRPCError({
@@ -42,32 +43,35 @@ export async function controlCreateDryAger(
 }
 
 export async function controlStatusChange(
-  schema: types.Schema,
   id: string,
   statusType: "light" | "fan",
   newStatus: "on" | "off",
 ) {
-  const [error, res] = await dryAgerModel.changeStatus(
-    schema,
-    id,
-    statusType,
-    newStatus,
-  );
-  if (error) {
-    const error = new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "status wasnt changed",
-    });
-    return [error, null];
+  if (statusType === "light") {
+    const [error, res] = await dryAgerModel.changeLightStatus(id, newStatus);
+    if (error) {
+      const error = new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "status wasnt changed",
+      });
+      return [error, null];
+    }
+    return [null, res];
+  } else if (statusType === "fan") {
+    const [error, res] = await dryAgerModel.changeFanStatus(id, newStatus);
+    if (error) {
+      const error = new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "status wasnt changed",
+      });
+      return [error, null];
+    }
+    return [null, res];
   }
-  return [null, res];
 }
 
-export async function controlGetUsersDryAgers(
-  schema: types.Schema,
-  id: string,
-) {
-  const [error, res] = await dryAgerModel.getDryAgersByUserId(schema, id);
+export async function controlGetUsersDryAgers(id: string) {
+  const [error, res] = await dryAgerModel.getDryAgersByUserId(id);
   if (error) {
     const error = new TRPCError({
       code: "INTERNAL_SERVER_ERROR",

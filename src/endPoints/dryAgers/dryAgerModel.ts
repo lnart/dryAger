@@ -1,30 +1,37 @@
 import * as types from "../../types";
 import { checkIfUserExist } from "../users/userModel";
+import { dryAgerModel } from "../../db/schemas";
+import { readOneByUsername } from "../users/userModel";
 
-export async function getDryAgerById(schema: types.Schema, id: string) {
-  const res = await schema.DryAger.findById(id);
+export async function initializeSignUp(obj: types.DryAger) {
+  const res = await dryAgerModel.create(obj);
   if (!res) {
     return [true, null];
   }
   return [null, res];
 }
 
-export async function getDryAgersByUserId(schema: types.Schema, id: string) {
-  const res = await schema.DryAger.findOne({ userId: id });
+export async function getDryAgerById(id: string) {
+  const res = await dryAgerModel.findById(id);
   if (!res) {
     return [true, null];
   }
   return [null, res];
 }
 
-export async function createDryAger(
-  schema: types.Schema,
-  dryAgerObject: types.WriteDryAger,
-) {
-  const res = await schema.DryAger.create({
-    userId: dryAgerObject.userId,
-    name: dryAgerObject.name,
-    model: dryAgerObject.model,
+export async function getDryAgersByUserId(id: string) {
+  const res = await dryAgerModel.find({ "user._id": id });
+  if (!res) {
+    return [true, null];
+  }
+  return [null, res];
+}
+
+export async function createDryAger(obj: types.WriteDryAger, username: string) {
+  const user = await readOneByUsername(username);
+  const res = await dryAgerModel.create({
+    name: obj.name,
+    user: user,
   });
   if (!res) {
     return [true, null];
@@ -32,14 +39,18 @@ export async function createDryAger(
   return [null, res];
 }
 
-export async function changeStatus(
-  schema: types.Schema,
-  id: string,
-  statusType: "light" | "fan",
-  newStatus: "on" | "off",
-) {
-  const prop = "status." + statusType;
-  const res = await schema.DryAger.updateOne(
+export async function changeLightStatus(id: string, newStatus: "on" | "off") {
+  const res = await dryAgerModel.updateOne(
+    { _id: id },
+    { $set: { "status.light": newStatus } },
+  );
+  if (res.modifiedCount === 0) {
+    return [true, null];
+  }
+  return [null, res];
+}
+export async function changeFanStatus(id: string, newStatus: "on" | "off") {
+  const res = await dryAgerModel.updateOne(
     { _id: id },
     { $set: { "status.fan": newStatus } },
   );
