@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: lennart
+  name: blue-service #Name of the service itself
+  labels:
+    service: blue-service #Label to select the service within other resources
+spec:
+  ports:
+    - port: 8004 #Port being exposed
+      name: blue-api #port name
+      targetPort: 3032 #Port which is being targeted (port of the image)
+  selector: #selects only pods with the following labels
+    app: dryagerapi
+    env: blue
