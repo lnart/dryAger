@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: lennart
+  name: blue-deployment # name of the deployment
+spec: # rules for the deployment
+  replicas: 3
+  selector:
+    matchLabels: #selecs only pods with the following labels, this should match the selector in the corresponding service
+      app: dryagerapi
+      env: blue
+  template: #template for the pods in this deployment
+    metadata:
+      labels: #all the pods in this deployment will have the following labels
+        app: dryagerapi
+        env: blue
+    spec:
+      containers:
+        - name: dryagerapi
+          image: lnart/dryager-backend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3032
+          env:
+            - name: PORT
+              value: "3032"
+            - name: CLOUD_DB_CONNECTION_STRING
+              value: "mongodb+srv://devPafel:xeLTlvbAcQHxAY1c@mongocluster.q994q4k.mongodb.net/?retryWrites=true&w=majority&appName=MongoCluster"
+            - name: MQTT_USERNAME
+              value: lennart
+            - name: MQTT_PASSWORD
+              value: partying
+            - name: MQTT_CONNECT_STRING
+              value: "mqtts://edd3ce52ef5747ab963e27f2669a069c.s2.eu.hivemq.cloud"
+            - name: BASE_URL
+              value: 0.0.0.0
