@@ -24,7 +24,7 @@ spec: # rules for the deployment
           command: ["/bin/sh", "-c"]
           args:
             - |
-              echo $
+              ls
               npm start
           env:
             - name: PORT
