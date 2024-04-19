@@ -94,7 +94,7 @@ jobs:
           k8s-secret: ${{ secrets.KUBE_SERVICE_ACC_SECRET }}
           new-tag: ${{github.sha}}
       - name: Replace image tag in Kubernetes deployment file
-        run: sed -i 's/IMAGE_TAG_PLACEHOLDER/${{ github.sha }}/g' deployment.yml.template > deployment.yml
+        run: sed -i 's/IMAGE_TAG_PLACEHOLDER/${{ github.sha }}/g' deployment.yml > deployment.yml
       - uses: actions/checkout@v4
         name: checkout deployments
         with:
