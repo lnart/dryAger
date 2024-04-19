@@ -40,3 +40,11 @@ export async function controlGetRecordsInTimeSpan(
   }
   return [null, res];
 }
+
+export async function controlGetAll(id: string) {
+  const [error, res] = await recordModel.getRecordsFromDryAger(id);
+  if (error) {
+    return [error, null];
+  }
+  return [null, res];
+}
