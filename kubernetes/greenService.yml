@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: lennart
+  name: green-service
+  labels:
+    service: green-service
+spec:
+  ports:
+    - port: 8005
+      name: green-service
+      targetPort: 3032
+  selector:
+    app: dryagerapi
+    env: green

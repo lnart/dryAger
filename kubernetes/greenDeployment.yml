@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: lennart
+  name: green-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dryagerapi
+      env: green
+  template:
+    metadata:
+      labels:
+        app: dryagerapi
+        env: green
+    spec:
+      containers:
+        - name: dryagerapi
+          image: lnart/dryager-backend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3032
+          env:
+            - name: PORT
+              value: "3032"
+            - name: CLOUD_DB_CONNECTION_STRING
+              value: "mongodb+srv://devPafel:xeLTlvbAcQHxAY1c@mongocluster.q994q4k.mongodb.net/MeatMatureDB?retryWrites=true&w=majority&appName=MongoCluster"
+            - name: MQTT_USERNAME
+              value: lennart
+            - name: MQTT_PASSWORD
+              value: partying
+            - name: MQTT_CONNECT_STRING
+              value: "mqtts://edd3ce52ef5747ab963e27f2669a069c.s2.eu.hivemq.cloud"
+            - name: BASE_URL
+              value: 0.0.0.0
