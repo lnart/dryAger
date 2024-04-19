@@ -8,7 +8,7 @@ const dryAgerSchema = new mongoose.Schema({
   },
   user: {
     username: { type: String, required: true },
-    email: { type: String, required: false, unique: true, sparse: true },
+    email: { type: String, required: false },
     password: { type: String, required: true },
   },
   recipes: [
