@@ -110,4 +110,4 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
         run: |
 
-          kubectl apply -f staging
+          kubectl apply -f ./
