@@ -1,6 +1,9 @@
 import * as types from "../../types";
 import axios from "axios";
 import { TRPCError } from "@trpc/server";
+import { getDryAgerById } from "../dryAgers/dryAgerModel";
+import { mqttClient } from "./mqtt";
+import { controlRecordCreation } from "../records/recordController";
 
 export async function controlRecordPubs(
   TOPIC: string,
@@ -17,11 +20,9 @@ export async function controlRecordPubs(
         fanActivity: validationResult.data.fanActivity,
         lightActivity: validationResult.data.lightActivity,
       };
-      const res = await axios.post(
-        `${process.env.BASE_URL}/record.create`,
-        body,
-      );
-      console.log(res.status, res.data);
+
+      const [error, res] = await controlRecordCreation(body);
+      console.log(await res);
       return [null, true];
     }
     const error = new TRPCError({
@@ -33,5 +34,22 @@ export async function controlRecordPubs(
     console.error(error);
     const err = new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
     return [err, null];
+  }
+}
+
+export async function subscribeToNewDryager(dryAgerId: string) {
+  try {
+    const [error, dryAger] = await getDryAgerById(dryAgerId);
+    console.log(dryAger);
+    //@ts-ignore
+    const username = dryAger.user.username.split(" ").join("_");
+    const topic: string = username + "/" + dryAgerId;
+    (await mqttClient).subscribe(topic, () => {
+      console.log("subscribed to new topic: " + topic);
+    });
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
   }
 }
