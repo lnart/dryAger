@@ -97,6 +97,8 @@ jobs:
         run: sed -i 's/IMAGE_TAG_PLACEHOLDER/${{ github.sha }}/g' blueDeployment.yml > blueDeployment.yml
       - name: debug
         run: head ./blueDeployment.yml
+      - name: debug
+        run: ls
       - uses: actions/checkout@v4
         name: checkout deployments
         with:
