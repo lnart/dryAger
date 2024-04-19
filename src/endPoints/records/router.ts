@@ -30,6 +30,13 @@ export const recordRouter = router({
       }
       return res;
     }),
+  getAll: publicProcedure.input(z.string()).query(async (opts) => {
+    const [error, res] = await recordController.controlGetAll(opts.input);
+    if (error) {
+      throw error;
+    }
+    return res;
+  }),
 });
 
 export type recordRouter = typeof recordRouter;
