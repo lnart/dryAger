@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index",
+    "dev": "nodemon src/index.ts",
     "start": "tsc && node dist/index.js",
     "format": "npx prettier . --write",
     "format:check": "npx prettier . --check",
@@ -38,7 +38,8 @@
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "vitest": "^1.4.0",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zod-validation-error": "^3.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.2.1",
