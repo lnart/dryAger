@@ -2,6 +2,8 @@ import * as dryAgerModel from "./dryAgerModel";
 import * as types from "../../types";
 import { TRPCError } from "@trpc/server";
 import { readOneById } from "../users/userModel";
+import { subscribeToNewDryager } from "../mqtt/mqttController";
+import { fromZodError } from "zod-validation-error";
 
 export async function controlGetDryAger(id: string) {
   const [error, res] = await dryAgerModel.getDryAgerById(id);
@@ -19,12 +21,12 @@ export async function controlCreateDryAger(
   dryAgerObject: types.WriteDryAger,
   userId: string,
 ) {
-  const user = await readOneById(userId);
+  const [err, user] = await readOneById(userId);
   const validator = types.UserSchema.safeParse(user);
   if (validator.success === true) {
     const [error, res] = await dryAgerModel.createDryAger(
       dryAgerObject,
-      validator.data.username,
+      validator.data,
     );
     if (error) {
       const error = new TRPCError({
@@ -33,7 +35,15 @@ export async function controlCreateDryAger(
       });
       return [error, null];
     }
-    return [null, res];
+    if (res) {
+      //@ts-expect-error
+      const newDryAgerId = res._id;
+      const subscribe = await subscribeToNewDryager(newDryAgerId);
+      if (subscribe) {
+        return [null, res];
+      }
+      return [true, null];
+    }
   }
   const error = new TRPCError({
     code: "INTERNAL_SERVER_ERROR",

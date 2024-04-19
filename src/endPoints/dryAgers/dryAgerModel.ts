@@ -13,7 +13,6 @@ export async function initializeSignUp(obj: types.DryAger) {
 
 export async function getDryAgerById(id: string) {
   const res = await dryAgerModel.findById(id);
-  console.log(res);
   if (!res) {
     return [true, null];
   }
@@ -28,8 +27,7 @@ export async function getDryAgersByUserId(id: string) {
   return [null, res];
 }
 
-export async function createDryAger(obj: types.WriteDryAger, username: string) {
-  const user = await readOneByUsername(username);
+export async function createDryAger(obj: types.WriteDryAger, user: types.User) {
   const res = await dryAgerModel.create({
     name: obj.name,
     user: user,
@@ -59,4 +57,9 @@ export async function changeFanStatus(id: string, newStatus: "on" | "off") {
     return [true, null];
   }
   return [null, res];
+}
+
+export async function getAllDryAger() {
+  const res = await dryAgerModel.find();
+  return res;
 }
