@@ -1,5 +1,4 @@
-import { dryAgerModel, recordModel } from "../../db/schemas";
-import mongoose from "mongoose";
+import { recordModel } from "../../db/schemas";
 import * as types from "../../types";
 
 export async function getRecords(
@@ -50,6 +49,15 @@ export async function getRecordsInTimeSpan(
       $lte: endDate,
     },
   });
+  if (res) {
+    return [null, res];
+  }
+  return [true, null];
+}
+
+export async function getRecordsFromDryAger(id: string) {
+  const res = await recordModel.find({ dryAgerId: id });
+
   if (res) {
     return [null, res];
   }
