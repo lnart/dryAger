@@ -35,7 +35,9 @@ export async function updateUser(user: types.WriteUser, id: string) {
 }
 
 export async function readOneById(id: string) {
-  const result = await dryAgerModel.findOne({ "user._id": id });
+  const result = await dryAgerModel.findOne({ "user.username": id });
+  console.log(result);
+
   if (!result) {
     return [true, null];
   }
