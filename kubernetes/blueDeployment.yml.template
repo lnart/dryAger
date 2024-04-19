@@ -17,15 +17,20 @@ spec: # rules for the deployment
     spec:
       containers:
         - name: dryagerapi
-          image: lnart/dryager-backend:latest
+          image: lnart/dryager-backend:IMAGE_TAG_PLACEHOLDER
           imagePullPolicy: Always
           ports:
             - containerPort: 3032
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo $
+              npm start
           env:
             - name: PORT
               value: "3032"
             - name: CLOUD_DB_CONNECTION_STRING
-              value: "mongodb+srv://devPafel:xeLTlvbAcQHxAY1c@mongocluster.q994q4k.mongodb.net/?retryWrites=true&w=majority&appName=MongoCluster"
+              value: "mongodb+srv://devPafel:xeLTlvbAcQHxAY1c@mongocluster.q994q4k.mongodb.net/MeatMatureDB?retryWrites=true&w=majority&appName=MongoCluster"
             - name: MQTT_USERNAME
               value: lennart
             - name: MQTT_PASSWORD
