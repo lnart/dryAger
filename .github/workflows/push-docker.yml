@@ -93,10 +93,10 @@ jobs:
           k8s-url: ${{ secrets.KUBE_SERVER_URL }}
           k8s-secret: ${{ secrets.KUBE_SERVICE_ACC_SECRET }}
           new-tag: ${{github.sha}}
-      - name: Replace image tag in Kubernetes deployment file
-        run: sed -i 's/IMAGE_TAG_PLACEHOLDER/${{ github.sha }}/g' blueDeployment.yml > blueDeployment.yml
+      # - name: Replace image tag in Kubernetes deployment file
+      # run: sed -i 's/IMAGE_TAG_PLACEHOLDER/${{ github.sha }}/g' blueDeployment.yml > blueDeployment.yml
       - name: debug
-        run: head ./blueDeployment.yml
+        run: cat ./blueDeployment.yml
       - name: debug
         run: ls
       - uses: actions/checkout@v4
