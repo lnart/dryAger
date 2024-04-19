@@ -9,10 +9,9 @@ export const RecipeSchema = z.object({
 });
 
 export const UserSchema = z.object({
-  _id: z.string(),
-  username: z.string(),
-  email: z.string().email().optional(),
   password: z.string(),
+  username: z.string(),
+  email: z.string(),
 });
 
 export const WriteUserSchema = z.object({
