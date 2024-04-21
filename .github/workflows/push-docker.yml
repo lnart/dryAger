@@ -106,6 +106,6 @@ jobs:
           strategy: basic
           namespace: lennart
           manifests: |
-            kubernetes/blueDeployment.yaml
+            kubernetes/blueDeployment.yml
           images: |
             lnart/dryager-backend:${{ github.sha }}
