@@ -4,7 +4,7 @@ metadata:
   namespace: lennart
   name: green-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: dryagerapi
@@ -20,10 +20,10 @@ spec:
           image: lnart/dryager-backend:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 3032
+            - containerPort: 3033
           env:
             - name: PORT
-              value: "3032"
+              value: "3033"
             - name: CLOUD_DB_CONNECTION_STRING
               value: "mongodb+srv://devPafel:xeLTlvbAcQHxAY1c@mongocluster.q994q4k.mongodb.net/MeatMatureDB?retryWrites=true&w=majority&appName=MongoCluster"
             - name: MQTT_USERNAME

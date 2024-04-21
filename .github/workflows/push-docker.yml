@@ -107,5 +107,7 @@ jobs:
           namespace: lennart
           manifests: |
             kubernetes/blueDeployment.yml
+            kubernetes/blueService.yml
+            kubernetes/Ingress.yml
           images: |
             lnart/dryager-backend:${{ github.sha }}

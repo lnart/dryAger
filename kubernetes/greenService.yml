@@ -8,8 +8,8 @@ metadata:
 spec:
   ports:
     - port: 8005
-      name: green-service
-      targetPort: 3032
+      name: green-api
+      targetPort: 3033
   selector:
     app: dryagerapi
     env: green

@@ -21,3 +21,13 @@ spec:
                 name: blue-service
                 port:
                   name: blue-api
+    - host: staging.api.dryager.lennartpafel.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: green-service
+                port:
+                  name: green-api
