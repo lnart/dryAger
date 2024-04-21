@@ -18,7 +18,6 @@ jobs:
       - run: npm ci
         name: install dependencies
         working-directory:
-      - run: ls -a
       - run: npm run test
         name: test with npm
         working-directory:
@@ -95,7 +94,6 @@ jobs:
           k8s-secret: ${{ secrets.KUBE_SERVICE_ACC_SECRET }}
           new-tag: ${{github.sha}}
       - name: debug
-        working-directory: kubernetes/
         run: ls -a
       - name: Replace image tag in Kubernetes deployment file
         working-directory: kubernetes/
