@@ -17,7 +17,7 @@ spec: # rules for the deployment
     spec:
       containers:
         - name: dryagerapi
-          image: lnart/dryager-backend:IMAGE_TAG_PLACEHOLDER
+          image: lnart/dryager-backend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 3032
