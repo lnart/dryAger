@@ -62,7 +62,7 @@ export const userRouter = router({
   }),
 
   test: publicProcedure.query(() => {
-    return "deployment is working properly!";
+    return "Muahhahahahah";
   }),
 });
 
