@@ -18,6 +18,7 @@ jobs:
       - run: npm ci
         name: install dependencies
         working-directory:
+      - run: ls -a
       - run: npm run test
         name: test with npm
         working-directory:
