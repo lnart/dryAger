@@ -29,11 +29,6 @@ jobs:
           git commit -m "Update ingress service"
           git push
 
-  apply_changes:
-    runs-on: ubuntu-22.04
-    name: apply changes
-    needs: update-ingress
-    steps:
       - name: set the kubernetes context
         uses: azure/k8s-set-context@v3
         with:
