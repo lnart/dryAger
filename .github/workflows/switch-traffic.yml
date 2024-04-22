@@ -13,7 +13,7 @@ jobs:
         run: ls -lR
       - name: Update Ingress File
         run: |
-          sed -i '' \
+          sed -i \
           -e 's/name: blue-service/name: TEMP-SERVICE/' \
           -e 's/name: green-service/name: blue-service/' \
           -e 's/name: TEMP-SERVICE/name: green-service/' \
