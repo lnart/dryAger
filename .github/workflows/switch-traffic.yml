@@ -1,0 +1,28 @@
+name: Switch traffic
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-ingress:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update Ingress File
+        run: |
+          sed -i '' \
+          -e 's/name: blue-service/name: TEMP-SERVICE/' \
+          -e 's/name: green-service/name: blue-service/' \
+          -e 's/name: TEMP-SERVICE/name: green-service/' \
+          -e 's/name: blue-api/name: TEMP-API/' \
+          -e 's/name: green-api/name: blue-api/' \
+          -e 's/name: TEMP-API/name: green-api/' ingress.yml
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "Github Action"
+          git add ingress.yml
+          git commit -m "Update ingress service"
