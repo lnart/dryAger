@@ -18,9 +18,9 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: blue-service
+                name: green-service
                 port:
-                  name: blue-api
+                  name: green-api
     - host: staging.api.dryager.lennartpafel.com
       http:
         paths:
@@ -28,6 +28,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: green-service
+                name: blue-service
                 port:
-                  name: green-api
+                  name: blue-api
