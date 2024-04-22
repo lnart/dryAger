@@ -9,7 +9,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+      - name: List files in the repository
+        run: ls -lR
       - name: Update Ingress File
         run: |
           sed -i '' \
