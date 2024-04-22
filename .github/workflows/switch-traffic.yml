@@ -47,3 +47,6 @@ jobs:
       - name: apply switch
         run: |
           kubectl apply -f kubernetes/ingress.yml
+      - name: debug
+        run: |
+          cat kubernetes/ingress.yml
