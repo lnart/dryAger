@@ -19,7 +19,7 @@ jobs:
           -e 's/name: TEMP-SERVICE/name: green-service/' \
           -e 's/name: blue-api/name: TEMP-API/' \
           -e 's/name: green-api/name: blue-api/' \
-          -e 's/name: TEMP-API/name: green-api/' ingress.yml
+          -e 's/name: TEMP-API/name: green-api/' ./kubernetes/ingress.yml
 
       - name: Commit and push changes
         run: |
