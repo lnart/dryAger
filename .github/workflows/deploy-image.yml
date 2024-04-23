@@ -2,6 +2,16 @@ name: Deploy image in Kubernetes Cluster
 
 on:
   workflow_call:
+    inputs:
+      deployment:
+        type: string
+        required: true
+      service:
+        type: string
+        required: true
+      ingress:
+        type: string
+        required: true
 
 jobs:
   push-staging:
@@ -25,8 +35,8 @@ jobs:
           strategy: basic
           namespace: lennart
           manifests: |
-            kubernetes/blueDeployment.yml
-            kubernetes/blueService.yml
-            kubernetes/ingress.yml
+            ${{inputs.deployment}}
+            ${{inputs.service}}
+            ${{inputs.ingress}}
           images: |
             lnart/dryager-backend:${{ github.sha }}

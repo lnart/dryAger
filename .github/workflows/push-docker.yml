@@ -17,4 +17,8 @@ jobs:
   push-staging:
     needs: [integrate, build-image]
     uses: ./.github/workflows/deploy-image.yml
+    with:
+      deployment: kubernetes/blueDeployment.yml
+      service: kubernetes/blueService.yml
+      ingress: kubernetes/ingress.yml
     secrets: inherit
