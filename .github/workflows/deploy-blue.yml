@@ -2,8 +2,9 @@ name: Staging Deployment Backend
 
 on:
   push:
+  pull_request:
     branches:
-      - master
+      - blue
 
 jobs:
   integrate:
