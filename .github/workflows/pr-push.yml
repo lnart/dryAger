@@ -1,0 +1,11 @@
+name: Integrate into Main
+
+on:
+  push:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  integrate:
+    uses: ./.github/workflows/integrate.yml
