@@ -1,0 +1,24 @@
+name: Deploy Production Backend
+
+on:
+  pull_request:
+  push:
+    branches:
+      - release
+jobs:
+  integrate:
+    uses: ./github/workflows/integrate.yml
+
+  build-image:
+    needs: integrate
+    uses: ./.github/workflows/build-and-push-docker.yml
+    secrets: inherit
+
+  deploy-image:
+    needs: build-image
+    uses: ./.github/workflows/deploy-image.yml
+    with:
+      deployment: kubernetes/greenDeployment.yml
+      service: kubernetes/greenService.yml
+      ingress: kubernetes/ingress.yml
+    secrets: inherit
