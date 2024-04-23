@@ -3,6 +3,7 @@ import * as types from "../../types";
 import { TRPCError } from "@trpc/server";
 import { mqttClient } from "../mqtt/mqtt";
 import { start } from "repl";
+import { getAllDryAger } from "../dryAgers/dryAgerModel";
 type MqttClient = typeof mqttClient;
 
 export async function controlRecordCreation(record: types.WriteRecord) {
@@ -47,4 +48,34 @@ export async function controlGetAll(id: string) {
     return [error, null];
   }
   return [null, res];
+}
+
+export function detectAnomalies(
+  avg: types.AverageRecord,
+  records: types.Record[],
+  threshold: types.Thresholds,
+) {
+  for (let i = 0; i < records.length; i++) {
+    if (Math.abs(records[i].humidity - threshold.humidity) > 0) {
+    }
+  }
+}
+
+export async function checkAnomalies() {
+  const dryAgers = await getAllDryAger();
+  const endDate = new Date();
+  const startDate = new Date(endDate.getTime() - 10 * 60000);
+  const validator = types.ArrayOfDryAgerSchema.safeParse(dryAgers);
+  if (validator.success === true) {
+    for (let i = 0; i < dryAgers.length; i++) {
+      const averageData = await recordModel.calcAlltimeAverage(
+        validator.data[i]._id,
+      );
+      const records = recordModel.getRecordsInTimeSpan(
+        validator.data[i]._id,
+        startDate,
+        endDate,
+      );
+    }
+  }
 }
