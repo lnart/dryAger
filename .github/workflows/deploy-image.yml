@@ -1,0 +1,32 @@
+name: Deploy image in Kubernetes Cluster
+
+on:
+  workflow_call:
+
+jobs:
+  push-staging:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: set the kubernetes context
+        uses: azure/k8s-set-context@v3
+        with:
+          method: service-account
+          k8s-url: ${{ secrets.KUBE_SERVER_URL }}
+          k8s-secret: ${{ secrets.KUBE_SERVICE_ACC_SECRET }}
+      - name: checkout deployments
+        uses: actions/checkout@v4
+        with:
+          submodules: "recursive"
+      - name: deploy to the kubernetes cluster
+        uses: azure/k8s-deploy@v4
+        with:
+          action: deploy
+          force: true
+          strategy: basic
+          namespace: lennart
+          manifests: |
+            kubernetes/blueDeployment.yml
+            kubernetes/blueService.yml
+            kubernetes/ingress.yml
+          images: |
+            lnart/dryager-backend:${{ github.sha }}
