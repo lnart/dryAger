@@ -62,7 +62,7 @@ export const userRouter = router({
   }),
 
   test: publicProcedure.query(() => {
-    return "Muahhahahahah";
+    return "new worflow was sucessful";
   }),
 });
 
