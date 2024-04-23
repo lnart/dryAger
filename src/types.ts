@@ -38,6 +38,14 @@ export const WriteRecordSchema = RecordSchema.omit({
   date: true,
 });
 
+export const averageRecordSchema = RecordSchema.omit({
+  date: true,
+  fanActivity: true,
+  lightActivity: true,
+}).extend({
+  _id: z.string(),
+});
+
 export const timespanSchema = z.object({
   dryAgerId: z.string(),
   startDate: z.string(),
@@ -51,6 +59,8 @@ export const DryAgerSchema = z.object({
   user: UserSchema,
   recipes: z.array(RecipeSchema),
 });
+
+export const ArrayOfDryAgerSchema = z.array(DryAgerSchema);
 
 export const WriteDryAgerSchema = DryAgerSchema.omit({
   _id: true,
@@ -80,3 +90,9 @@ export type WriteDryAger = z.infer<typeof WriteDryAgerSchema>;
 export type Record = z.infer<typeof RecordSchema>;
 export type WriteRecord = z.infer<typeof WriteRecordSchema>;
 export type recordPayload = z.infer<typeof recordPayloadSchema>;
+export type AverageRecord = z.infer<typeof averageRecordSchema>;
+
+export type Thresholds = {
+  humidity: number;
+  temperature: number;
+};

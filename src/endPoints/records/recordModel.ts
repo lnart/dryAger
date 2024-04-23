@@ -1,5 +1,7 @@
+import { start } from "repl";
 import { recordModel } from "../../db/schemas";
 import * as types from "../../types";
+import { ObjectId } from "mongodb";
 
 export async function getRecords(
   start: string,
@@ -63,3 +65,47 @@ export async function getRecordsFromDryAger(id: string) {
   }
   return [true, null];
 }
+
+export async function calcAverage(
+  dryAgerId: string,
+  startDate: Date,
+  endDate: Date,
+) {
+  const res = await recordModel.aggregate([
+    {
+      $match: {
+        dryAgerId: new ObjectId(dryAgerId),
+        date: { $gte: startDate, $lte: endDate },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        averageHumidity: { $avg: "$humidity" },
+        averageTemperature: { $avg: "$temperature" },
+      },
+    },
+  ]);
+  console.log(res[0]);
+  return res[0];
+}
+
+export async function calcAlltimeAverage(dryAgerId: string) {
+  const res = await recordModel.aggregate([
+    {
+      $match: {
+        dryAgerId: new ObjectId(dryAgerId),
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        averageHumidity: { $avg: "$humidity" },
+        averageTemperature: { $avg: "$temperature" },
+      },
+    },
+  ]);
+  console.log(res[0]);
+  return res[0];
+}
+calcAlltimeAverage("66214a497372963463a87dce");

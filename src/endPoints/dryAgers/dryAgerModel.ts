@@ -1,7 +1,5 @@
 import * as types from "../../types";
-import { checkIfUserExist } from "../users/userModel";
 import { dryAgerModel } from "../../db/schemas";
-import { readOneByUsername } from "../users/userModel";
 
 export async function initializeSignUp(obj: types.DryAger) {
   const res = await dryAgerModel.create(obj);
