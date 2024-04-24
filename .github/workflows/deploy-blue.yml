@@ -10,16 +10,16 @@ on:
 
 jobs:
   integrate:
-    uses: ./.github/workflows/integrate.yml
+    uses: ./.github/workflows/integrate.yml@master
 
   build-image:
     needs: integrate
-    uses: ./.github/workflows/build-and-push-docker.yml
+    uses: ./.github/workflows/build-and-push-docker.yml@master
     secrets: inherit
 
   push-staging:
     needs: [integrate, build-image]
-    uses: ./.github/workflows/deploy-image.yml
+    uses: ./.github/workflows/deploy-image.yml@master
     with:
       deployment: kubernetes/blueDeployment.yml
       service: kubernetes/blueService.yml

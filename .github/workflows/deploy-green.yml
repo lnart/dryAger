@@ -9,16 +9,16 @@ on:
       - green
 jobs:
   integrate:
-    uses: ./github/workflows/integrate.yml
+    uses: ./github/workflows/integrate.yml@master
 
   build-image:
     needs: integrate
-    uses: ./.github/workflows/build-and-push-docker.yml
+    uses: ./.github/workflows/build-and-push-docker.yml@master
     secrets: inherit
 
   deploy-image:
     needs: build-image
-    uses: ./.github/workflows/deploy-image.yml
+    uses: ./.github/workflows/deploy-image.yml@master
     with:
       deployment: kubernetes/greenDeployment.yml
       service: kubernetes/greenService.yml
