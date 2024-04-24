@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { z } from "zod";
 
 export const RecipeSchema = z.object({
@@ -81,6 +82,15 @@ export const recordPayloadSchema = z.object({
   lightActivity: z.enum(["on", "off"]),
 });
 
+export const RecipeProgressSchema = z.array(
+  z.object({
+    _id: z.instanceof(ObjectId),
+    name: z.string(),
+    recipeTitle: z.string(),
+    progress: z.number(),
+  }),
+);
+
 export type Recipe = z.infer<typeof RecipeSchema>;
 export type User = z.infer<typeof UserSchema>;
 export type WriteUser = z.infer<typeof WriteUserSchema>;
@@ -95,4 +105,11 @@ export type AverageRecord = z.infer<typeof averageRecordSchema>;
 export type Thresholds = {
   humidity: number;
   temperature: number;
+};
+
+export type RecipeProgress = {
+  _id: ObjectId;
+  name: string;
+  recipeTitle: string;
+  progress: number;
 };
