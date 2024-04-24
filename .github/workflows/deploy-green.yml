@@ -1,4 +1,4 @@
-name: Deploy Production Backend
+name: Deploy Green Backend
 
 on:
   pull_request:
