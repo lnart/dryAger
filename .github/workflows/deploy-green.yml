@@ -9,7 +9,7 @@ on:
       - green
 jobs:
   integrate:
-    uses: ./github/workflows/integrate.yml
+    uses: ./.github/workflows/integrate.yml
 
   build-image:
     needs: integrate
