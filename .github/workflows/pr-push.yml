@@ -7,4 +7,4 @@ on:
 
 jobs:
   integrate:
-    uses: ./.github/workflows/integrate.yml@master
+    uses: ./.github/workflows/integrate.yml
