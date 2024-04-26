@@ -5,6 +5,8 @@
 MeatMature is a web API designed to facilitate users in adding and monitoring Physical DryAgers. While the physical setup is under development, this API provides robust control over various metrics critical for producing high-quality cuts of meat. This project allows users to manage DryAger devices, monitor key metrics, and even create recipes based on the data obtained from the DryAgers.
 This Repository mainly is about the API and the communicaiton with other resources, for setting up the hardware part that means the actual DryAger please look into this [Repository](https://www.github.com/lnart/dryAgerEdgeDevice)
 
+For Diagrams about Architecture, CI/CD and Databases please refer to the [Wiki](https://github.com/lnart/dryAger/wiki)
+
 ## Table of Contents
 
 - [Installation](#installation)
